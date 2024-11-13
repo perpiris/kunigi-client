@@ -1,0 +1,22 @@
+<h1 class="text-4xl font-bold mb-8">Ομάδες</h1>
+
+<div class="grid grid-cols-4 gap-4">
+    @for (team of teams; track team.teamId) {
+    <div class="card bg-base-100 shadow-md">
+        <figure class="relative h-64">
+            <img [src]="team.profileImagePath || 'profile.jpg'" [alt]="team.name"
+                class="w-full h-full object-cover cursor-pointer" [routerLink]="['/teams', team.teamId]" />
+        </figure>
+        <div class="card-body p-6 bg-base-100">
+            <h2 class="card-title text-xl font-bold text-center w-full">{{ team.name }}</h2>
+        </div>
+    </div>
+    }
+</div>
+
+<div *ngIf="getPageNumbers().length > 1" class="join flex justify-center mt-8">
+    <button *ngFor="let page of getPageNumbers()" class="join-item btn btn-accent"
+        [class.btn-active]="page === currentPage" (click)="changePage(page)">
+        {{ page }}
+    </button>
+</div>

@@ -1,0 +1,31 @@
+<button routerLink="/teams" class="btn btn-ghost mb-4">
+    ← Πίσω στη λίστα
+</button>
+
+@if (team) {
+<div class="hero bg-base-200 rounded-lg overflow-hidden mb-8">
+    <div class="hero-content flex-col lg:flex-row gap-8">
+        <img [src]="team.profileImagePath || 'profile.jpg'" [alt]="team.name"
+            class="max-w-sm rounded-lg shadow-md object-cover" />
+        <div>
+            <h1 class="text-5xl font-bold">{{ team.name }}</h1>
+            <p class="py-6">{{ team.description }}</p>
+            <div class="stats shadow">
+                @if (team.createdYear) {
+                <div class="stat">
+                    <div class="stat-title">Έτος Ίδρυσης</div>
+                    <div class="stat-value">{{ team.createdYear }}</div>
+                </div>
+                }
+
+                <div class="stat">
+                    <div class="stat-title">Κατάσταση</div>
+                    <div class="stat-value" [ngClass]="team.isActive ? 'text-success' : 'text-error'">
+                        {{ team.isActive ? 'Ενεργή' : 'Ανενεργή' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
