@@ -16,9 +16,9 @@ export const routes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
     { path: 'teams', component: TeamListComponent },
     { path: 'teams/create', component: TeamCreateComponent },
-    { path: 'teams/update', component: TeamUpdateComponent },
+    { path: 'teams/update/:id', component: TeamUpdateComponent },
     { path: 'teams/:id', component: TeamDetailsComponent },
-    { path: 'team-management', component: TeamManagementComponent },
-    { path: 'team-actions', component: TeamActionsComponent },
+    { path: 'teams/management', component: TeamManagementComponent },
+    { path: 'teams/actions', component: TeamActionsComponent },
     { path: '**', redirectTo: 'home' }
 ];

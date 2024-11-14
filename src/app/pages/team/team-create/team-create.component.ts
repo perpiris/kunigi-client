@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 export class TeamCreateComponent {
   teamForm: FormGroup;
   showErrors = false;
+  serverErrors: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -21,13 +22,14 @@ export class TeamCreateComponent {
     private router: Router
   ) {
     this.teamForm = this.fb.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.maxLength(100)]],
       isActive: [true]
     });
   }
 
   onSubmit(): void {
     this.showErrors = true;
+    this.serverErrors = [];
 
     if (this.teamForm.valid) {
       this.teamService.createTeam(this.teamForm.value).subscribe({
@@ -35,19 +37,23 @@ export class TeamCreateComponent {
           this.goBack();
         },
         error: (error) => {
-          console.error('Error creating team:', error);
+          if (error.error && Array.isArray(error.error)) {
+            this.serverErrors = error.error;
+          } else {
+            this.serverErrors = ['Παρουσιάστηκε κάποιο σφάλμα. Παρακαλώ δοκιμάστε ξανά.'];
+          }
         }
       });
     }
   }
 
   goBack(): void {
-    this.router.navigate(['/team-management']);
+    this.router.navigate(['/teams/management']);
   }
 
   hasFieldError(fieldName: string): boolean {
     const field = this.teamForm.get(fieldName);
-    return this.showErrors && field?.invalid || false;
+    return (this.showErrors && field?.invalid) || false;
   }
 
   getErrorMessage(fieldName: string): string {
@@ -56,10 +62,10 @@ export class TeamCreateComponent {
     if (!field?.errors) return '';
 
     if (field.errors['required']) {
-      return 'Το πεδίο είναι υποχρεωτικό';
+      return 'Tο πεδίο απαιτείται';
     }
     if (field.errors['maxlength']) {
-      return 'Το μέγιστο μήκος είναι 255 χαρακτήρες';
+      return 'Το πεδίο δεν μπορεί να είναι πάνω απο 100 χαρακτήρες';
     }
 
     return '';

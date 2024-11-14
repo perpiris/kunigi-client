@@ -13,7 +13,7 @@ export class TeamService {
 
   constructor(private http: HttpClient) { }
 
-  createTeam(request: any): Observable<void> {
+  createTeam(request: FormData): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}`, request);
   }
 
@@ -26,7 +26,7 @@ export class TeamService {
     return this.http.get<PagedResponse<Team>>(`${this.apiUrl}`, { params });
   }
 
-  updateTeam(request: any): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}`, request);
+  updateTeam(formData: FormData): Observable<any> {
+    return this.http.post(this.apiUrl, formData);
   }
 }

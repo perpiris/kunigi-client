@@ -1,30 +1,35 @@
 <div class="container mx-auto px-4 py-8 max-w-lg">
     <div class="card bg-base-100 p-8">
         <h2 class="text-2xl font-bold text-center mb-8">Δημιουργία νέας ομάδας</h2>
-        <form [formGroup]="teamForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+        <div class="alert alert-error mb-4" *ngIf="serverErrors.length > 0">
+            <div class="flex flex-col gap-2">
+                <div *ngFor="let error of serverErrors">{{ error }}</div>
+            </div>
+        </div>
+
+        <form [formGroup]="teamForm">
             <div class="form-control w-full">
                 <label class="label">
                     <span class="label-text">Όνομα ομάδας</span>
                 </label>
-                <input type="text" formControlName="name" maxlength="255" class="input input-bordered w-full"
-                    [ngClass]="{'input-error': hasFieldError('name')}" />
-                <div *ngIf="hasFieldError('name')" class="text-error text-sm mt-1">
+                <input type="text" formControlName="name" class="input input-bordered w-full"
+                    [class.input-error]="hasFieldError('name')" />
+                <div class="text-error text-sm mt-1" *ngIf="hasFieldError('name')">
                     {{ getErrorMessage('name') }}
                 </div>
             </div>
-            <div class="form-control">
+
+            <div class="form-control mt-4">
                 <label class="label cursor-pointer">
                     <span class="label-text">Ενεργή</span>
-                    <input type="checkbox" formControlName="isActive" class="checkbox checkbox-primary" />
+                    <input type="checkbox" formControlName="isActive" class="toggle toggle-primary" />
                 </label>
             </div>
-            <div class="flex space-x-4">
-                <button type="submit" class="btn btn-primary flex-1">
-                    Αποθήκευση
-                </button>
-                <button type="button" (click)="goBack()" class="btn flex-1">
-                    Πίσω
-                </button>
+
+            <div class="flex space-x-4 mt-8">
+                <button class="btn btn-primary" (click)="onSubmit()">Αποθήκευση</button>
+                <button class="btn" (click)="goBack()">Πίσω</button>
             </div>
         </form>
     </div>

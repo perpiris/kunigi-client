@@ -1,1 +1,101 @@
-<p>team-update works!</p>
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="card bg-base-100 p-8">
+        <h2 class="text-2xl font-bold text-center mb-8">Επεξεργασία Ομάδας</h2>
+
+        <div class="alert alert-error mb-4" *ngIf="serverErrors.length > 0">
+            <div class="flex flex-col gap-2">
+                <div *ngFor="let error of serverErrors">{{ error }}</div>
+            </div>
+        </div>
+
+        <form [formGroup]="teamForm">
+            <div class="form-control w-full mb-4">
+                <label class="label">
+                    <span class="label-text">Περιγραφή</span>
+                </label>
+                <textarea formControlName="description" class="textarea textarea-bordered h-32"></textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-4">
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text">Έτος Ίδρυσης</span>
+                        </label>
+                        <input type="number" formControlName="createdYear" class="input input-bordered"
+                            [class.input-error]="hasFieldError('createdYear')" />
+                        <div class="text-error text-sm mt-1" *ngIf="hasFieldError('createdYear')">
+                            {{ getErrorMessage('createdYear') }}
+                        </div>
+                    </div>
+
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text">Website</span>
+                        </label>
+                        <input type="url" formControlName="website" class="input input-bordered"
+                            [class.input-error]="hasFieldError('website')" />
+                        <div class="text-error text-sm mt-1" *ngIf="hasFieldError('website')">
+                            {{ getErrorMessage('website') }}
+                        </div>
+                    </div>
+
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text">Facebook</span>
+                        </label>
+                        <input type="url" formControlName="facebook" class="input input-bordered"
+                            [class.input-error]="hasFieldError('facebook')" />
+                        <div class="text-error text-sm mt-1" *ngIf="hasFieldError('facebook')">
+                            {{ getErrorMessage('facebook') }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text">Youtube</span>
+                        </label>
+                        <input type="url" formControlName="youtube" class="input input-bordered"
+                            [class.input-error]="hasFieldError('youtube')" />
+                        <div class="text-error text-sm mt-1" *ngIf="hasFieldError('youtube')">
+                            {{ getErrorMessage('youtube') }}
+                        </div>
+                    </div>
+
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text">Instagram</span>
+                        </label>
+                        <input type="url" formControlName="instagram" class="input input-bordered"
+                            [class.input-error]="hasFieldError('instagram')" />
+                        <div class="text-error text-sm mt-1" *ngIf="hasFieldError('instagram')">
+                            {{ getErrorMessage('instagram') }}
+                        </div>
+                    </div>
+
+                    <div class="form-control">
+                        <label class="label cursor-pointer justify-start gap-4">
+                            <span class="label-text">Ενεργή</span>
+                            <input type="checkbox" formControlName="isActive" class="toggle toggle-primary" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-control w-full mt-4">
+                <label class="label">
+                    <span class="label-text">Εικόνα Προφίλ</span>
+                </label>
+                <input type="file" class="file-input file-input-bordered w-full" accept="image/*"
+                    (change)="onFileSelected($event)" />
+            </div>
+
+            <div class="flex space-x-4 mt-8">
+                <button class="btn btn-primary" (click)="onSubmit()">Αποθήκευση</button>
+                <button class="btn" (click)="goBack()">Πίσω</button>
+            </div>
+        </form>
+    </div>
+</div>
