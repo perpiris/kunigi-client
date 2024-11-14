@@ -26,7 +26,8 @@ export class TeamService {
     return this.http.get<PagedResponse<Team>>(`${this.apiUrl}`, { params });
   }
 
-  updateTeam(formData: FormData): Observable<any> {
-    return this.http.post(this.apiUrl, formData);
+  updateTeam(request: FormData): Observable<any> {
+    console.log('lol')
+    return this.http.put<void>(`${this.apiUrl}`, request);
   }
 }

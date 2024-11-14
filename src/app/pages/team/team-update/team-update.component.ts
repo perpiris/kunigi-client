@@ -61,7 +61,6 @@ export class TeamUpdateComponent implements OnInit {
         });
       },
       error: (error) => {
-        console.error('Error loading team:', error);
         this.serverErrors = ['Η ομάδα δεν βρέθηκε'];
         this.router.navigate(['/teams/management']);
       }
@@ -76,19 +75,12 @@ export class TeamUpdateComponent implements OnInit {
     }
   }
 
-
   onSubmit(): void {
     this.showErrors = true;
     this.serverErrors = [];
 
-    if (this.teamForm.valid && this.selectedFile) {
-      const formData = new FormData();
-      Object.keys(this.teamForm.value).forEach(key => {
-        formData.append(key, this.teamForm.get(key)?.value);
-      });
-      formData.append('profileImage', this.selectedFile);
-
-      this.teamService.updateTeam(formData).subscribe({
+    if (this.teamForm.valid) {
+      this.teamService.updateTeam(this.teamForm.value).subscribe({
         next: () => {
           this.goBack();
         },
@@ -103,9 +95,8 @@ export class TeamUpdateComponent implements OnInit {
     }
   }
 
-
   goBack(): void {
-    this.router.navigate(['/team-management']);
+    this.router.navigate(['/teams/management']);
   }
 
   hasFieldError(fieldName: string): boolean {
@@ -125,7 +116,7 @@ export class TeamUpdateComponent implements OnInit {
       return 'Το πεδίο δεν μπορεί να ξεπεράσει τους 150 χαρακτήρες';
     }
     if (field.errors['min'] || field.errors['max']) {
-      return `Created year must be between 1990 and ${this.currentYear}`;
+      return `Το έτος ίδρυσης πρέπει να είναι μεταξύ 1990 και ${this.currentYear}`;
     }
 
     return '';
